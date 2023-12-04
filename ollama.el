@@ -1,5 +1,5 @@
 ;;; ollama.el --- ollama client for Emacs
-
+(setq url-debug t)
 ;; Copyright (C) 2023 ZHOU Feng
 
 ;; Author: ZHOU Feng <zf.pascal@gmail.com>
@@ -40,7 +40,7 @@
   :group 'ollama
   :type 'string)
 
-(defcustom ollama:model "llama2-uncensored"
+(defcustom ollama:model "mistral"
   "Ollama model."
   :group 'ollama
   :type 'string)
@@ -107,6 +107,103 @@
   (with-output-to-temp-buffer "*ollama*"
     (princ
      (ollama-prompt ollama:endpoint (format "summarize \"\"\"%s\"\"\"" (buffer-substring (region-beginning) (region-end))) ollama:model))))
+
+;; rewrite this function to apply ollama to chunks of a buffer in a sliding window
+;;;###autoload
+(defun ollama-exec-region ()
+  "Exec marked text."
+  (interactive)
+  (with-output-to-temp-buffer "*ollama*"
+    (princ
+     (ollama-prompt ollama:endpoint (format "execute \"\"\"%s\"\"\"" (buffer-substring (region-beginning) (region-end))) ollama:model))))
+
+;; rewrite this function to apply ollama to chunks of a buffer in a sliding window
+;;;###autoload
+(defun ollama-reinterpret-region-insert ()
+  "Exec marked text."
+  (interactive)
+  (with-output-to-temp-buffer "*ollama*"
+    (princ (format "#+begin_src input\nrewrite and reinterpret creatively preserving main ideas \"\"\"%s\"\"\"\n#+end_src\n" (buffer-substring (region-beginning) (region-end))))
+    (princ
+     (format "#+begin_src output\n%s\n#+end_src\n"
+     (ollama-prompt ollama:endpoint (format "rewrite and reinterpret creatively preserving main ideas \"\"\"%s\"\"\"" (buffer-substring (region-beginning) (region-end))) ollama:model))
+  )))
+
+(defun ollama-reinterpret-region-insert-2x ()
+  "Exec marked text."
+  (interactive)
+  (with-output-to-temp-buffer "*ollama*"
+    (princ (format "#+begin_src input\nrewrite and reinterpret creatively preserving main ideas \"\"\"%s\"\"\"\n#+end_src\n" (buffer-substring (region-beginning) (region-end))))
+    (princ
+     (format "#+begin_src output\n%s\n#+end_src\n"
+     (ollama-prompt ollama:endpoint (format "rewrite and reinterpret creatively preserving main ideas \"\"\"%s\"\"\"" (buffer-substring (region-beginning) (region-end))) ollama:model))
+  )))
+
+(defun ollama-exec-region-org ()
+  "Exec marked text."
+  (interactive)
+  (with-output-to-temp-buffer "*ollama*"
+    (princ (format "#+begin_src input\nexecute \"\"\"%s\"\"\"\n#+end_src\n" (buffer-substring (region-beginning) (region-end))))
+    (princ
+     (format "#+begin_src output\n%s\n#+end_src\n"
+     (ollama-prompt ollama:endpoint (format "execute \"\"\"%s\"\"\"" (buffer-substring (region-beginning) (region-end))) ollama:model))
+  )))
+
+;;;###autoload
+(defun ollama-cuda-region ()
+  "Exec marked text."
+  (interactive)
+  (with-output-to-temp-buffer "*ollama*"
+    (princ
+     (ollama-prompt ollama:endpoint (format "Interpret the following nvidia CUDA code and explain it  \"\"\"%s\"\"\"" (buffer-substring (region-beginning) (region-end))) ollama:model))))
+
+
+
+;; ;;###autoload
+;; (defun ollama-exec-chunks ()
+;;   "Exec marked text."
+;;   (interactive)
+;;   (let ((buffer (buffer))
+;;         (window-size 1000) ; adjust this value as needed
+;;         (start 0)
+;;         (end -1))
+;;     (loop for i from start to end by (+ window-size 1)))
+;;       ;; Get the chunk of buffer from the current start and end positions
+;;       (let ((chunk (buffer-substring buffer start end))
+;;             (prompt (format "execute \"\"%s\"\"" chunk))))
+;;         ;; Execute OLlama on the chunk using the specified model
+;;         (with-output-to-temp-buffer "*ollama*"
+;;           (princ (ollama-prompt ollama:endpoint prompt ollama:model))))
+;;       ;; Move the start position forward by the window size
+;;       (setq start (+ start window-size)))))
+
+;; ;;;### Review and rewrite this function
+;; (defun ollama-exec-region2 ()
+;;   "Executes a marked region of text using the OLLAMA API."
+;;   (interactive)
+;;   (let ((*default-output-buffer* '*olly-output*))
+;;     ;; Get the contents of the selected region
+;;     ;; Construct the OLLAMA API request string
+;;     (let ((request-string (format "execute \"%s\"" (buffer-substring (region-beginning) (region-end)))))
+;;       ;; Send the OLLAMA API request and capture the output
+;;       (with-output-to-temp-buffer "*olly-output*"
+;;         (ollama-prompt ollama:endpoint request-string ollama:model)))))
+
+(defun ollama-reinterpret-region-insert2 ()
+  "Execute marked text and save result as string."
+  (interactive)
+  (with-output-to-temp-buffer "*ollama*"  
+    (setq inputd (format "rewrite and reinterpret creatively preserving main ideas: \"\"%s\"\"" (buffer-substring (region-beginning) (region-end))))
+    (setq response  (ollama-prompt ollama:endpoint inputd ollama:model))
+	(setq inputd2 (format "rewrite and reinterpret creatively preserving main ideas: \"\"%s\"\"" response))
+			(princ (format "#+begin_src input\nrewrite and reinterpret creatively preserving main ideas \"\"%s\"\"" inputd ))
+			(princ (format "#+begin_src output\n%s\n#+end_src\n" response))
+		(dotimes (i 4)
+			(setq response (ollama-prompt ollama:endpoint response ollama:model))
+			(princ (format "#+begin_src output%s\n%s\n#+end_src\n" i response))
+	))
+
+  )
 
 (provide 'ollama)
 ;;; ollama.el ends here
