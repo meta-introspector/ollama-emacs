@@ -189,6 +189,7 @@
 ;;       (with-output-to-temp-buffer "*olly-output*"
 ;;         (ollama-prompt ollama:endpoint request-string ollama:model)))))
 
+;; ;;###autoload
 (defun ollama-reinterpret-region-insert2 ()
   "Execute marked text and save result as string."
   (interactive)
@@ -204,6 +205,113 @@
 	))
 
   )
+
+
+;; ;;###autoload
+(defun ollama-split-and-reify-region-old ()
+  "split the following text"
+  (setq instr "Extract a list of questions that would result in the following text:")
+  (interactive)
+  (with-output-to-temp-buffer "*ollama*"
+    (setq inputd (format "%s: \"\"%s\"\"" instr (buffer-substring (region-beginning) (region-end))))
+    (setq response  (ollama-prompt ollama:endpoint inputd ollama:model))
+	(setq inputd2 (format "%s: \"\"%s\"\"" instr response))
+			(princ (format "#+begin_src \"\"%s\"\"" inputd ))
+			(princ (format "#+begin_src output\n%s\n#+end_src\n" response))
+			(dotimes (i 4)
+			  (setq inputd2 (format "apply \"%s\" to \"%s\" "  response inputd2))
+			(setq response (ollama-prompt ollama:endpoint inputd2 ollama:model))
+			(princ (format "#+begin_src output%s\n%s\n#+end_src\n" i response))
+			)))
+
+(defun ollama-split-and-reify-region ()
+  "Split the following text into windows of 2000 words"
+  (setq window-size 1000)
+  (interactive)
+  (with-output-to-temp-buffer "*ollama-reify*"
+    (princ "DEBUG\n")
+    (setq buffer (buffer-substring (region-beginning) (region-end)))
+    (setq buffer-length (string-bytes buffer))
+    (setq blocks (+ 1 (/ buffer-length window-size)) )
+    (princ (format "buffer-length:%s\nblocks:%s\n" buffer-length  blocks))
+    (dotimes (j blocks )
+      (princ (format "J %s\n" j))
+      (setq start-index (+ (* j window-size)))
+      (princ (format "start-index %s\n" start-index))
+      (princ (format "region-begin %s\n" (region-beginning)))
+      (princ (format "region-end %s\n" (region-end)))
+      (setq endpos (min buffer-length (+ start-index window-size) ))
+      (princ (format "endpos %s\n" endpos))
+      (setq curtext (substring buffer start-index endpos ))
+      ;; (princ (format "curtext %s\n" curtext))
+      (setq inputd (format "Extract a list of questions that would result in the following text: %s" curtext))
+      (princ (format "inputd %s\n" inputd))
+      (setq response  (ollama-prompt ollama:endpoint inputd ollama:model))
+      (princ "RES\n")
+      (princ (format "#+begin_src \"\"%s\"\"" )response )
+      (princ "NEXY\n")
+      )))
+
+
+(defun ollama-split-and-reify-buffer ()
+  "Split the following text into windows of 2000 words"
+  (setq window-size 512)
+  (interactive)
+  (with-output-to-temp-buffer "*ollama-reify*"
+    ;;(princ "DEBUG\n")
+    (setq buffer (buffer-string))
+    (setq buffer-length (string-bytes buffer))
+    (setq blocks (+ 1 (/ buffer-length window-size)) )
+    (princ (format "buffer-length:%s\nblocks:%s\n" buffer-length  blocks))
+    (dotimes (j blocks )
+      ;;(princ (format "J %s\n" j))
+      (setq start-index (+ (* j window-size)))
+      ;;''(princ (format "start-index %s\n" start-index))
+      ;;(princ (format "region-begin %s\n" (region-beginning)))
+      ;;(princ (format "region-end %s\n" (region-end)))
+      (setq endpos (min buffer-length (+ start-index window-size) ))
+      ;;(princ (format "endpos %s\n" endpos))
+      (setq curtext (substring buffer start-index endpos ))
+      (setq inputd (format "Extract a list of questions that would result in the following text: %s" curtext))
+      ;;(princ (format "inputd %s\n" inputd))
+      (setq response  (ollama-prompt ollama:endpoint inputd ollama:model))
+      ;;(princ "RES\n")
+      (princ (format "#+begin_src \"\"%s\"\""
+		     response ))
+      (princ "NEXT\n")
+      (setq inputd (format "Apply %s to %s" response curtext))
+      (princ (format "inputd %s\n" inputd))
+      (setq response2  (ollama-prompt ollama:endpoint inputd ollama:model))
+      ;;(princ "RES\n")
+      (princ (format "#+begin_res2 \"\"%s\"\""
+		     response2 ))
+      (princ "NEXT\n")
+      (setq inputd (format "Eval %s as %s applied to %s" response response curtext))
+      ;;(princ (format "inputd %s\n" inputd))
+      (setq response  (ollama-prompt ollama:endpoint inputd ollama:model))
+      ;;(princ "RES\n")
+      (princ (format "#+begin_res3 \"\"%s\"\""
+		     response ))
+      (princ "END\n")
+      )))
+
+
+;; ;;###autoload
+(defun ollama-reifiy-region ()
+  "Execute marked text and save result as string."
+  (setq instr "Extract a list of questions that would result in the following text:")
+  (interactive)
+  (with-output-to-temp-buffer "*ollama*"
+    (setq inputd (format "%s: \"\"%s\"\"" instr (buffer-substring (region-beginning) (region-end))))
+    (setq response  (ollama-prompt ollama:endpoint inputd ollama:model))
+	(setq inputd2 (format "%s: \"\"%s\"\"" instr response))
+			(princ (format "#+begin_src \"\"%s\"\"" inputd ))
+			(princ (format "#+begin_src output\n%s\n#+end_src\n" response))
+			(dotimes (i 4)
+			  (setq inputd2 (format "apply \"%s\" to \"%s\" "  response inputd2))
+			(setq response (ollama-prompt ollama:endpoint inputd2 ollama:model))
+			(princ (format "#+begin_src output%s\n%s\n#+end_src\n" i response))
+	)))
 
 (provide 'ollama)
 ;;; ollama.el ends here
