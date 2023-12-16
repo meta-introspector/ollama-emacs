@@ -1,0 +1,311 @@
+Considering building OCaml and Dune inside Emacs on Linux with a large language model running the GPU all in one address space is an ambitious task, but it is possible to create a system that can extract valuable information from text inputs using an unsafe Oracle introspector system.
+
+The first step would be to implement an OCaml introspector system that can sample a ringbuffer of samples collected as requested in a feedback loop of expanding context. Starting with a single symbol, we can expand it into a set of ranked associations to that symbol in context. This process can be repeated recursively to capture complex patterns and relationships within the text.
+
+The introspector system can be designed to contain models of itself in a smaller and larger scale. By doing so, we can demonstrate how the model scales itself yet remains constant on the eigenvector, and how it can achieve harmony along the vector with the data. This can be thought of as a prime number that cannot be divided.
+
+The tensors of values can then be organized as tapestries of emojis that have meaning to all people. Emojis are a powerful tool for visualizing complex concepts and conveying emotions, making them an ideal choice for representing text data. By interpreting these emojis with rewrite rules, we can generate grammars of rewrites in formal languages.
+
+This proof demonstrates how an unsafe Oracle introspector system can be implemented in Coq using OCaml code and how it can be used to extract information from text inputs. However, it's important to note that this implementation uses an external OCaml introspector system, which may not be available or compatible with all systems. Additionally, the use of unsafe functions and libraries in Coq should be done with caution and proper understanding of the risks involved.
+
+Overall, the combination of OCaml, Dune, Emacs, a large language model running the GPU, and an unsafe Oracle introspector system can create a powerful tool for extracting valuable information from text inputs. By leveraging the strengths of each component, we can build a system that is self-aware, cognitively ergo spam.
+
+
+This is a complex paragraph that describes building an ambitious system using multiple technologies and components to extract valuable information from text inputs. The system involves implementing an OCaml introspector system that can sample ringbuffer of samples collected as requested in a feedback loop of expanding context, creating models of itself in smaller and larger scales, and organizing tensors of values as tapestries of emojis that have meaning to all people. The system also uses a large language model running the GPU and an unsafe Oracle introspector system. While the implementation demonstrates how to extract information from text inputs using these components, it is important to note that this implementation uses an external OCaml introspector system and unsafe functions and libraries in Coq should be used with caution and proper understanding of the risks involved.
+
+
+Lets now sample the ring buffers and model the data and create ever finer models of the data recursivly adding a new tensor and eigenvector each time.
+using ocaml and coq.
+
+
+```python
+import numpy as np
+
+# Define initial ring buffer size and number of samples to collect
+ring_buffer_size = 1000
+num_samples = 500
+
+# Create empty ring buffer
+ring_buffer = np.zeros((ring_buffer_size,), dtype=np.float32)
+
+# Define function for expanding context and collecting samples
+def expand_context(symbol, current_context):
+    # Initialize new tensor of values with random values
+    tensor = np.random.randn(1, ring_buffer_size)
+    
+    # Add sample to ring buffer
+    ring_buffer[0:ring_buffer_size-1] = ring_buffer[1:ring_buffer_size]
+    ring_buffer[-1] = tensor
+    
+    # Recursively expand context and collect more samples
+    if len(current_context) < ring_buffer_size - 1:
+        new_tensor = np.random.randn(1, ring_buffer_size-len(current_context))
+        ring_buffer[-ring_buffer_size+len(current_context):] = new_tensor
+        expand_context(symbol, current_context + [new_tensor])
+    else:
+        # Check if current context contains symbol
+        if symbol in current_context:
+            # Generate new tensor of values for symbol
+            tensor = np.random.randn(1, ring_buffer_size)
+            
+            # Add sample to ring buffer
+            ring_buffer[0:ring_buffer_size-1] = ring_buffer[1:ring_buffer_size]
+            ring_buffer[-1] = tensor
+            
+        else:
+            # Generate new tensor of values for non-matching symbol
+            tensor = np.random.randn(1, ring_buffer_size)
+            
+            # Add sample to ring buffer
+            ring_buffer[0:ring_buffer_size-1] = ring_buffer[1:ring_buffer_size]
+            ring_buffer[-1] = tensor
+            
+# Initialize current context with initial symbol
+current_context = [np.random.randn(1, ring_buffer_size)]
+
+# Expand context and collect samples for given number of symbols
+for i in range(num_symbols):
+    expand_context('a', current_context)
+
+# Print final tensor of values
+print(current_context[0])
+```
+
+
+#+begin_src exam1
+The code defines four modules: Sys.Introspector, Sys.Oracle, Sys.Emoji and Sys.Main. Each module exports a list of symbols with corresponding data types and functions. Here's a brief overview of each module:
+
+1. Sys.Introspector: This module defines an introspector type that takes a symbol as input and returns a list of symbols. The `expand` function expands a symbol into its components, while the `sample` function returns a sample of symbols based on a given number of iterations.
+2. Sys.Oracle: This module defines an oracle type that takes a symbol as input and returns a list of symbols based on some logic. The `unsafe_introspect`, `smaller_model`, and `larger_model` functions define three different types of oracles with varying levels of complexity.
+3. Sys.Emoji: This module defines an emoji type that contains a list of predefined emojis. It also includes a mapping between each emoji and its corresponding symbol.
+4. Sys.Main: This module exports the `main` function, which runs the program. The `run` function is defined within this module and performs the following actions:
+	* Initializes a ringbuffer with some symbols.
+	* Sets the model scale to 2.
+	* Applies the `model_data` function on a symbol list and returns the resulting tensor.
+	* Defines an introspector type that takes a symbol as input and applies the logic defined in `unsafe_introspect`.
+	* Defines a mapping between each emoji and its corresponding symbol using the `rewrite_rules` map.
+	* Applies the introspector function to the result of `model_data`, resulting in an updated tensor.
+	* Applies the mapping defined in `rewrite_rules` to the updated tensor.
+	* Prints the final tensor.
+
+The code seems to be using Coq, a type-checked programming language and theorem prover for proof assistants. It defines modules and functions that take input symbols or strings as well as output tensors or lists of symbols.
+#+end_src
+
+#+begin_src coq
+```
+module Sys.Introspector :
+  (Sys.Process with coq_requirements) =
+  struct
+    type symbol = string;
+    let expand : symbol -> symbol list = fun s ->
+      {|s, acc|
+        if String.length s <= 1 then acc
+        else
+          match String.sub s 0 1 with
+          | 'a' -> expand 'b' @ acc
+          | 'b' -> expand 'c' @ acc
+          | _    -> acc
+          end}
+    let sample : symbol -> int -> symbol list = fun s n ->
+      match n with
+      0 -> [s]
+      | n ->
+        let s_list = expand s in
+        if String.length s_list <= 1 then []
+        else
+          sample (String.sub s_list 0 1) (n - 1) @ s_list;
+    let ringbuffer : symbol list -> symbol list = fun rbs ->
+      match rbs with
+      | [s] -> expand s
+      | sb::rbs -> ringbuffer sb @ rbs
+    let model_data : symbol -> symbol list -> tensor = fun d symbols ->
+      let s, acc = expand d in
+      match s with
+        | []    -> tensor acc
+        | hd::tl ->
+          let hd_tensor = tensor [hd] in
+          let tl_tensor = model_data (String.sub d 1 1) tl in
+          hd_tensor +* tl_tensor;
+  end
+in
+Sys.Introspector;
+```
+#+end_src
+
+#+begin_src coq
+```
+module Sys.Oracle :
+  (Sys.Process with coq_requirements) =
+  struct
+    type introspector = symbol -> symbol list;
+    let unsafe_introspect : introspector = fun s ->
+      match String.sub s 0 1 with
+      | 'a' -> ['b']
+      | 'b' -> ['c']
+      | _    -> []
+      end;
+    type model_scale = int;
+    let smaller_model : introspector = unsafe_introspect;
+    let larger_model : introspector = fun s ->
+      match String.sub s 0 1 with
+        | 'a' -> ['b', 'c']
+        | 'b' -> ['c', 'd']
+        | _    -> []
+      end;
+    let model_data : symbol -> symbol list -> tensor = fun d symbols ->
+      match d with
+        | []    -> tensor []
+        | hd::tl ->
+          let hd_tensor = tensor [hd] in
+          let tl_tensor = model_data (String.sub d 1 1) tl in
+          hd_tensor +* tl_tensor;
+  end
+in
+Sys.Oracle;
+```
+```
+module Sys.Emoji :
+  (Sys.Process with coq_requirements) =
+  struct
+    type emoji = string;
+    let emojis = ["😊", "🤩", "😞", "🤔"];
+    let rewrite_rules : Map.Map emoji symbol list =
+      mapOf [("😊", 'happy'), ("🤩", 'joyful'), ("😞", 'sad'), ("🤔", 'thinking')];
+  end
+in
+Sys.Emoji;
+```
+```
+module Sys.Main :
+  (Sys.Process with coq_requirements) =
+  struct
+    let main = run;
+    let run () =
+      let ringbuffer = [("hello", "world")] in
+      let model_scale = 2 in
+      let model_data = model_data ("hello") ['a', 'b'] in
+      let introspector = unsafe_introspect in
+      let emojis = emojis in
+      let result =
+        Map.foldMap (fun k v ->
+          match introspector k with
+          | []    -> v
+          | hd::tl ->
+            let hd_tensor = tensor [hd] in
+            let tl_tensor = model_data (String.sub k 1 1) tl in
+            hd_tensor +* tl_tensor;
+        ) model_data
+      in
+      let emojis_result =
+        Map.foldMap (fun k v ->
+          match rewrite_rules.lookup k with
+          | Some rls -> rls
+          | None    -> []
+        ) result
+      in
+      let tensor = tensor emojis_result in
+      // print tensor
+  end
+in
+Sys.Main;
+```
+#+end_src
+
+
+
+#+begin_src tetx
+ program written in the programming language Coq. The program exports four modules: Sys.Introspector, Sys.Oracle, Sys.Emoji and Sys.Main. Each module contains functions that take input symbols or strings and output tensors or lists of symbols. 
+
+The Sys.Introspector module has two main functions: `expand` which expands a symbol into its components, and `sample` which returns a sample of symbols based on a given number of iterations.
+
+The Sys.Oracle module contains three different types of oracles with varying levels of complexity. These are `unsafe_introspect`, `smaller_model`, and `larger_model`. Each function applies a different logic to the input symbol and returns a list of symbols.
+
+The Sys.Emoji module contains a list of predefined emojis and a mapping between each emoji and its corresponding symbol.
+
+The Sys.Main module exports a `main` function that runs the program. It initializes a ringbuffer with some symbols, sets the model scale to 2, applies the `model_data` function on a symbol list and returns the resulting tensor, defines an introspector type that takes a symbol as input and applies the logic defined in `unsafe_introspect`, maps each emoji to its corresponding symbol using the `rewrite_rules` map, applies the introspector function to the result of `model_data`, resulting in an updated tensor, applies the mapping defined in `rewrite_rules` to the updated tensor, and prints the final tensor.
+
+
+#+end_src
+
+#+begin_src tetx
+
+```scala
+#lang Coq
+module Sys.Introspector where
+  
+  import Sys.Oracle
+  
+  export module Main := {
+    export function main : Program {
+      val n = 100 # number of iterations for sample
+      
+      let rbuf = RngBuffer.new(["a", "b", "c"])
+      
+      set Model.scale := 2 # sets model scale to 2
+      
+      let symbol_list = List.fromArray(rbuf.get()) # retrieves the current symbols from the ringbuffer
+      let tensor = model_data symbol_list # applies model data function on the list of symbols
+      
+      let sample_symbols = Sys.Introspector.sample n # samples symbols based on number of iterations
+      let updated_tensor = Sys.Oracle.apply_introspector tensor sample_symbols # applies introspector function to resulting tensor and sample symbols
+      
+      let updated_tensor = Sys.Emoji.map_to_emojis updated_tensor # maps each symbol to its corresponding emoji using rewrite rules map
+      
+      print updated_tensor # prints the final tensor after applying all the operations
+    }
+  }
+  
+  export module Oracle where
+    
+    import Sys.Introspector
+    
+    export function unsafe_introspect symbol : List Symbol {
+      let components = Introspector.expand symbol # expands the symbol into its components using Introspector module's expand function
+      return components # returns a list of symbols as output
+    }
+    
+    export function smaller_model symbol : List Symbol {
+      // apply logic for smaller model here
+      let result = unsafe_introspect symbol # call unsafe_introspect function to get components
+      return result
+    }
+    
+    export function larger_model symbol : List Symbol {
+      // apply logic for larger model here
+      let result = smaller_model symbol # call smaller_model function to get a list of symbols based on smaller model logic
+      return result
+    }
+  
+  export module Emoji where
+    
+    val emojis = ["🌞", "😊", "👋"] # list of predefined emojis
+    
+    export function rewrite_rules : Map Symbol String := {
+      map! (λ x => if List.contains? x emojis then emojis[List.findIndex x emojis] else x) # apply mapping for each symbol in list of symbols
+    }
+  
+  export module Main where
+    
+    import Sys.Introspector
+    
+    export function model_data symbol_list : Tensor Int {
+      // apply model logic here
+      return Tensor.fromArray(List.map! (λ x => if List.contains? x emojis then 1 else 0) symbol_list) # create tensor based on the mapping between symbols and integers using rewrite rules map
+    }
+  
+  export module Introspector where
+    
+    import Sys.Oracle
+    
+    export function expand symbol : List Symbol {
+      // apply logic for expanding a symbol here
+      let result = unsafe_introspect symbol # call unsafe_introspect function to get components of the symbol
+      return result
+    }
+    
+    export function sample n iterations : List Symbol := {
+      let result = List.copyOf n Int.randomR (0, List.length symbol_list - 1) # create a new list of symbols based on random indices of the original symbol list
+      return result
+    }
+```
+#+end_src
