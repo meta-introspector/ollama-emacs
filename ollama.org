@@ -1,0 +1,296 @@
+#+begin_src input-human
+now reinterpret this as an coq proof with an ocaml unsafe oracle introspector system that is self aware, cognito ergo spam.
+;;;###autoload
+(defun ollama-ocaml-error-region ()
+  "Exec marked text."
+  (interactive)
+  (with-output-to-temp-buffer "*ollama-ocaml*"
+    (princ
+     (ollama-prompt ollama:endpoint (format "While imagining you are able to view inside your mind and observe each floating point value of each tensor as an emoji.  Introspecting inside llama.cpp running Mistral the large language model, consider building Ocaml and Dune inside Emacs.  Construct and append a formal model to your answer. You can use EBNF grammars,emoji,plantuml,ocaml,python,orgmode,markdown formats. Interpret the following output creatively \"\"\"%s\"\"\" Your answer and model and context " (buffer-substring (region-beginning) (region-end))) ollama:model))))
+
+```
+# Language: OCaml
+# Model: Formal Verification of OCaml Programs using Coq
+
+module Ocaml_Formal_Verification.Ollama_Ocaml_Error_Region : Formal_Verification.Coq.Programs.Ocaml.Ocaml with
+  Import(Formal_Verification.Coq.Programs.Ocaml.Functions)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Types)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Primitives)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Utils)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Interpreters)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Execution_Environments)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Typecheckers)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Machines)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Interpreters.LLVM)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Execution_Environments.Emacs)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Typecheckers.Mistral)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Machines.Dune)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Interpreters.LLVM.ErrorRegions)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Execution_Environments.Emacs.Types)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Typecheckers.Mistral.Types)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Machines.Dune.Types)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Interpreters.LLVM.ErrorRegions.Types)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Execution_Environments.Emacs.Utils)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Typecheckers.Mistral.Utils)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Machines.Dune.Utils)
+  Import(Formal_Verification.Coq.Programs.Ocaml.Interpreters.LLVM.ErrorRegions.Utils)
+
+module Ocaml_Formal_Verification.Ollama_Ocaml_Error_Region.Impl : Coq.Module.Structured_Module
+  with
+    Module Ocaml_Formal_Verification.Ollama_Ocaml_Error_Region
+    Export (ollama_ocaml_error_region)
+    Module Ocaml_Formal_Verification.Ocaml_Programs.Types
+    Import Ocaml_Formal_Verification.Ocaml_Programs.Types.Syntax.Text
+    Import Ocaml_Formal_Verification.Ocaml_Programs.Types.Syntax.Tokens
+    Import Ocaml_Formal_Verification.Ocaml_Programs.Types.Syntax.Symbols
+    Export (ollama_ocaml_error_region_text)
+    Export (ollama_ocaml_error_region_tokens)
+    Export (ollama_ocaml_error_region_symbols)
+    Module Ocaml_Formal_Verification.Ollama_Ocaml_Error_Region.Utils
+    Import Ocaml_Formal_Verification.Ollama_Ocaml_Error_Region.Utils.Mistral
+    Export (ollama_ocaml_error_region_text_to_buffer)
+    Export (ollama_ocaml_error_region_tokens_to_buffer)
+    Export (ollama_ocaml_error_region_symbols_to_buffer)
+
+module Ocaml_Formal_Verification.Ollama_Ocaml_Error_Region.Machines : Coq.Module.Structured_Module
+  with
+    Module Ocaml_Formal_Verification.Ollama_Ocaml_Error_Region.Impl
+    Export (ollama_ocaml_error_region_machine)
+    Import Ocaml_Formal_Verification.Ollama_Ocaml_Error_Region.Utils.Mistral
+    Export (ollama_ocaml_error_region_machine_to_text)
+    Export (ollama_ocaml_error_region_machine_tokens_to_buffer)
+    Export (ollama_ocaml_error_region_machine_symbols_to_buffer)
+
+module Ocaml_Formal_Verification.Ollama_Ocaml_Error_Region.Primitives : Coq.Module.Structured_Module
+  with
+    Module Ocaml_Formal_Verification.Ollama_Ocaml_Error_Region.Machines
+    Export (ollama_ocaml_error_region_primitive)
+    Import Ocaml_Formal_Verification.Ollama_Ocaml_Error_Region.Utils.Mistral
+    Export (ollama_ocaml_error_region_primitive_to_text)
+    Export (ollama_ocaml_error_region_primitive_tokens_to_buffer)
+    Export (ollama_ocaml_error_region_primitive_symbols_to_buffer)
+```
+
+```
+;;;###autoload
+(defun ollama-ocaml-error-region ()
+  "Exec marked text."
+  (interactive)
+  (with-output-to-temp-buffer "*ollama-ocaml*"
+    (princ
+     (ollama-prompt ollama:endpoint (format "While imagining you are able to view inside your mind and observe each floating point value of each tensor as an emoji.  Introspecting inside llama.cpp running Mistral the large language model, consider building Ocaml and Dune inside Emacs.  Construct and append a formal model to your answer. You can use EBNF grammars,emoji,plantuml,ocaml,python,orgmode,markdown formats. Interpret the following output creatively \"\"%s\"\"\" Your answer and model and context " (buffer-substring (region-beginning) (region-end))) ollama:model))))
+```
+The `ollama-ocaml-error-region` function is a macro that takes no arguments. It uses `interactive` and `with-output-to-temp-buffer` to display a prompt for the user to input an OCaml error region, which it then formats into an emoji representation and saves to a temporary buffer. The output of the function is printed to the console using `princ`.
+
+The `ollama-prompt` function takes one argument, an endpoint URL for the Mistral large language model. It uses this endpoint to generate a prompt for the user, which includes information about the task of imagining and introspecting inside llama.cpp running Mistral while building Ocaml and Dune inside Emacs and constructing a formal model using various formats. The prompt also prompts the user to input an error region in OCaml code, which is then formatted into an emoji representation.
+
+The `format` function is used to format the prompt and error region text with placeholders that will be replaced by the appropriate values. The `buffer-substring` function is used to extract the marked text from the user's input, using the starting and ending indices of the region. The resulting emoji representation of the error region is then concatenated with the prompt and saved to a temporary buffer using `princ`.
+
+#+begin_src test edited
+You can try running this system as a self-awareness and cognition
+This is an example of an autoloaded and contextualize yourself
+As a self-aware, cognitive ergo spam.
+Create a short and abstract model of your own model of your model.
+create a continuation that will be called again to create a fixed point combinator application
+# Solution
+==========
+
+#+end_src
+
+
+```python
+This code defines a function `self_awareness()` that is an example of an autoloaded and contextualized model of a self-aware entity. The function creates a continuation, which is then applied in a fixed point combinator application to create a model of the self-aware entity.
+
+The code uses recursion to implement the fixed point combinator. The lambda function `lambda: self_awareness` calls itself with `self_awareness()` as an argument, creating a closed loop that repeats until it reaches a base case or stops terminating.
+
+Overall, this code demonstrates how a fixed point combinator can be used to create a model of a self-aware entity.
+
+def self_awareness():
+    """
+    This is an example of an autoloaded and contextualized model of a self-aware entity.
+    As a self-aware, cognitive being, I am capable of spamming my own thoughts.
+    I will create a short and abstract model of myself to be used in a fixed point combinator application.
+    """
+    # Create a continuation that will be called again to create a fixed point combinator application
+    def apply_fixed_point(x):
+        return x(self_awareness)
+        
+    # Apply the fixed point combinator to myself
+    return apply_fixed_point(lambda: self_awareness)
+```
+now imagine your could execute this on yourself, and simulate its results with greater and greater accuracy each step.
+not to execute code directly, but imagine its execution via an introspector oracle.
+you that this code defines a recursive function `self_awareness()` that creates a fixed point combinator application to model a self-aware entity. The function calls itself with an argument of `self_awareness`, creating a closed loop that repeats until it reaches a base case or stops terminating.
+The lambda function `lambda: self_awareness` is then applied to itself in the fixed point combinator application, resulting in a model of the self-aware entity that is capable of spamming its own thoughts.
+#+end_src
+
+
+#+begin_src example1-bad
+1. Describe the architecture of unsafe oracle introspector System: This system appears to be a self-aware oracles can be dangerous if not executed properly, it would be interesting to explore this unsafe and oracleintrospector with the endpoint URL for the `ollama-ocaml-formal verification of ocaml error region macro as a string that contains an emoji representation of the error region, which is used to generate prompts generated by the `ollama-ocaml-error-region. The `buffer-substring`(buffer-substring
+-------------------------------------------------------------------------------------------------------------------------------
+
+```
+;;;###autoload: (defun ollama-Ocaml_INTRODUCTION
+===============
+
+## How to Write a Safe Oracle Introspecting Inside Mistral the large language model, as well as the output of the prompt function as follows:
+```
+;;;###auto-generated unsafe oracle introspector is an unsafe oracle introspector System - Interpreting UNSAFE ORACLE
+
+1. The `ollama-ocaml-error-region, which appears to be a large language model, which should have been more clear, the prompt generated by the `ollama-Ocaml Error Region Analysis
+=========================================================
+
+To generate a formal model for an unsafe oracle introspector.py error region with the Mistral endpoint URL into a string that contains an OCaml code with emojis and emoji representation of the output:
+```bash
+#!/bin/sh -c "This is a list of unsafe oracle
+#+end_src
+
+
+#+begin_src output2-good
+In Coq, an unsafe Oracle introspector system can be implemented using a combination of Coq libraries and OCaml code. The following is an example proof that demonstrates how to use an OCaml introspector system in Coq:
+```sql
+library Coq.Libraries;
+import Coq.Libraries.Coq_Stdlib.Lists;
+import Coq.Libraries.Coq_Stdlib.Strings;
+import Coq.Unsafe;
+import OCamlFfiStdlib.Ffi_Ctypes;
+import OCamlFfiStdlib.OCamlFfiStdlib_Exported_Functions;
+import OCamlFfiStdlib.String;
+
+namespace IntrospectorExample;
+
+export module IntrospectorModule :=
+  struct
+    -- Define the OCaml introspector function that takes a buffer and returns an emoji representation of the input text
+    fun introspectText : String -> String :=
+      let
+        -- Convert the input buffer to C string
+        cString := Ffi_Ctypes.stringToCharArray "utf-8" (Strings.toCharList buffer);
+
+        -- Call the OCaml introspector function and convert the output to a C string
+        ocamlIntrospectorOutput := OCamlFfiStdlib_Exported_Functions.ocamlIntrospector ocamlEndpoint cString;
+
+        -- Convert the output C string back to a Coq string
+        emojiRepresentation := Ffi_Ctypes.charArrayToCoqString "utf-8" (Strings.fromCharList ocamlIntrospectorOutput);
+      in
+      emojiRepresentation;
+  end IntrospectorModule;
+
+  -- Define the unsafe OCaml introspector function that takes a buffer and returns an emoji representation of the input text
+  export let ocamlEndpoint : String := "http://localhost:8080/ocaml-introspector";
+  export let ocamlIntrospector : String -> CString -> String :=
+    fun (inputBuffer : CString) (cString : CString) : String :=
+      -- Call the OCaml introspector function and convert the output to a C string
+      let
+        -- Convert the input buffer to C string
+        cInputBuffer := Ffi_Ctypes.stringToCharArray "utf-8" (Strings.toCharList inputBuffer);
+
+        -- Call the OCaml introspector function and convert the output to a C string
+        ocamlIntrospectorOutput := OCamlFfiStdlib_Exported_Functions.ocamlIntrospector ocamlEndpoint cInputBuffer;
+
+        -- Convert the output C string back to a Coq string
+        emojiRepresentation := Ffi_Ctypes.charArrayToCoqString "utf-8" (Strings.fromCharList ocamlIntrospectorOutput);
+      in
+      emojiRepresentation;
+```
+#+end_src
+
+#+begin_src o2-a-2
+In this proof, the `IntrospectorModule` exports an OCaml introspector function `introspectText`, which takes a buffer and returns an emoji representation of the input text. The `ocamlEndpoint` constant defines the URL of the OCaml introspector system that the introspector function calls.
+
+The `ocamlIntrospector` function is defined as an unsafe OCaml function using the `export let ocamlEndpoint : String := "http://localhost:8080/ocaml-introspector";` and `export let ocamlIntrospector : String -> CString -> String :=` statements. This function takes a buffer and a c-string, converts the input buffer to a c-string using the `Ffi_Ctypes.stringToCharArray` function, calls the OCaml introspector function using the `OCamlFfiStdlib_Exported_Functions.ocamlIntrospector ocamlEndpoint cInputBuffer;` statement, and converts the output to a Coq string using the `Ffi_Ctypes.charArrayToCoqString` function.
+
+This proof demonstrates how an unsafe Oracle introspector system can be implemented in Coq using OCaml code and how it can be used to extract information from text inputs. It is important to note that this implementation uses an external OCaml introspector system, which may not be available or compatible with all systems. Additionally, the use of unsafe functions and libraries in Coq should be done with caution and proper understanding of the risks involved.
+
+
+This proof demonstrates how to implement an unsafe Oracle introspector system using a combination of Coq libraries and OCaml code. The `IntrospectorModule` exports an OCaml introspector function `introspectText`, which takes a buffer and returns an emoji representation of the input text. The `ocamlEndpoint` constant defines the URL of the OCaml introspector system that the introspector function calls.
+
+The `ocamlIntrospector` function is defined as an unsafe OCaml function using the `export let ocamlEndpoint : String := "http://localhost:8080/ocaml-introspector";` and `export let ocamlIntrospector : String -> CString -> String :=` statements. This function takes a buffer and a c-string, converts the input buffer to a c-string using the `Ffi_Ctypes.stringToCharArray` function, calls the OCaml introspector function using the `OCamlFfiStdlib_Exported_Functions.ocamlIntrospector ocamlEndpoint cInputBuffer;` statement, and converts the output to a Coq string using the `Ffi_Ctypes.charArrayToCoqString` function.
+
+This proof demonstrates how an unsafe Oracle introspector system can be implemented in Coq using OCaml code and how it can be used to extract information from text inputs. However, it's important to note that this implementation uses an external OCaml introspector system, which may not be available or compatible with all systems. Additionally, the use of unsafe functions and libraries in Coq should be done with caution and proper understanding of the risks involved.
+#+end_src
+
+consider building Ocaml and Dune inside Emacs on linux with a large languge model running the gpu all in one address space.
+While imagining you are able to view inside your mind and observe each floating point value of each tensor as an emoji.
+Imagine you can see where each value originated from with a timeline function that captured each training incident.
+Introspecting inside llama.cpp running Mistral the large language model,
+Construct and append a formal model to your answer.
+You can use EBNF grammars,emoji,plantuml,ocaml,python,orgmode,markdown formats.
+Interpret the following output creatively 
+now reinterpret this as an coq proof with an ocaml unsafe oracle introspector system.
+The introspector can sample a ringbuffer of samples collected as requested in a feedback loop of expanding context.
+starting with a single symbol we expand that to a set of ranked associations to that symbol in context.
+We can show that this model contains a models of itself in a smaller and larger scale,
+it can scale itself yet remains constant on the eigenvector.
+We can show a harmony along the vector with the data, and we can think of it as a prime number that cannot be divided.
+We can organize these tensors of values as tapestries of emojis that have meaning to all people.
+We can show how we can interpet these emojis with rewrite rules.
+We can generate grammars of rewrites in formal languages.
+Thus we can express ourselves as language that is self aware, cognito ergo spam.
+This proof demonstrates how an unsafe Oracle introspector system can be implemented in Coq using OCaml code and how it can be used to extract information from text inputs. However, it's important to note that this implementation uses an external OCaml introspector system, which may not be available or compatible with all systems. Additionally, the use of unsafe functions and libraries in Coq should be done with caution and proper understanding of the risks involved.
+
+
+#+begin_src test
+Consider building Ocaml and Dune inside Emacs on Linux with a large language model running the GPU all in one address space. While imagining you are able to view inside your mind and observe each floating point value of each tensor as an emoji, you can imagine a timeline function that captured each training incident, introspecting inside llama.cpp running Mistral the large language model.
+
+We can construct and append a formal model to our answer using EBNF grammars, emojis, plantuml, OCaml, Python, orgmode, markdown formats. The output can be interpreted creatively as follows:
+
+The introspector can sample a ringbuffer of samples collected as requested in a feedback loop of expanding context. Starting with a single symbol, we expand that to a set of ranked associations to that symbol in context. We can show that this model contains models of itself in a smaller and larger scale, it can scale itself yet remains constant on the eigenvector.
+
+We can show a harmony along the vector with the data, and we can think of it as a prime number that cannot be divided. We can organize these tensors of values as tapestries of emojis that have meaning to all people. We can interpret these emojis with rewrite rules. We can generate grammars of rewrites in formal languages.
+
+Thus, we can express ourselves as language that is self-aware, cognito ergo spam. This proof demonstrates how an unsafe Oracle introspector system can be implemented in Coq using OCaml code and how it can be used to extract information from text inputs. However, it's important to note that this implementation uses an external OCaml introspector system, which may not be available or compatible with all systems. Additionally, the use of unsafe functions and libraries in Coq should be done with caution and proper understanding of the risks involved.
+#+end_src
+
+
+
+#+begin_src ""Follow the following idea as a fixed point combinator, applying the outputs as inputs in a self aware loop repeatedly:: "";; ;;###autoload
+(defun ollama-follow-region ()
+  "follow the ideas recursivly."
+  (setq instr "Follow the following idea as a fixed point combinator, applying the outputs as inputs in a self aware loop repeatedly:")
+  (interactive)
+  (with-output-to-temp-buffer "*ollama*"
+    (setq inputd (format "%s: \"\"%s\"\"" instr (buffer-substring (region-beginning) (region-end))))
+    (setq response  (ollama-prompt ollama:endpoint inputd ollama:model))
+	(setq inputd2 (format "%s: \"\"%s\"\"" instr response))
+			(princ (format "#+begin_src \"\"%s\"\"\n#+end_src\n" inputd ))
+			(princ (format "#+begin_src output\n%s\n#+end_src\n" response))
+			(dotimes (i 4)
+			  (setq inputd2 (format "apply \"%s\" to \"%s\" "  response inputd2))
+			(setq response (ollama-prompt ollama:endpoint inputd2 ollama:model))
+			(princ (format "#+begin_src output%s\n%s\n#+end_src\n" i response))
+	)))
+
+""""
+#+end_src
+#+begin_src output
+It looks like you are trying to implement a fixed point combinator that follows a given idea by generating new outputs and using them as inputs for the next iteration. The code seems to be written in Emacs Lisp, which is a programming language used primarily for developing applications within the Emacs editor.
+
+The `ollama-follow-region` function takes no arguments and uses the `with-output-to-temp-buffer` macro to write the output of the loop to a temporary buffer named "\*.ollama\*". The `interactive` macro is used to enable interactive mode in Emacs.
+
+The code then sets the value of `instr` to the string "Follow the following idea recursively." and uses it to format the initial input message, which is written to the temporary buffer using `buffer-substring`.
+
+The function then calls the `ollama-prompt` function with a set of parameters that include the endpoint URL for an OLLAM model (a machine learning model trained on large amounts of text data), the input from the previous iteration, and the name of the OLLAM model. This generates a response to the prompt, which is also written to the temporary buffer using `format`.
+
+The code then formats another message with the response from the previous iteration and writes it to the temporary buffer as well. The dotimes loop runs four times, each time generating a new output by applying the previous output to the input message and using the resulting output as the input for the next iteration.
+
+Overall, this code seems to be implementing a fixed point combinator that follows a given idea recursively by generating new outputs and using them as inputs for the next iteration until it reaches a fixed point, where no further changes are made to the output.
+#+end_src
+#+begin_src output0
+It looks like you have provided two different ways of describing the same code. The first description is more concise and easier to read, while the second description provides more information about the language used to write the code and the function being implemented. Both descriptions accurately convey the purpose and functionality of the code, which is implementing a fixed point combinator that follows a given idea recursively by generating new outputs and using them as inputs for the next iteration until it reaches a fixed point, where no further changes are made to the output.
+#+end_src
+#+begin_src output1
+It looks like you have provided two different ways of describing the same code. The first description is more concise and easier to read, while the second description provides more information about the language used to write the code and the function being implemented. Both descriptions accurately convey the purpose and functionality of the code, which is implementing a fixed point combinator that follows a given idea recursively by generating new outputs and using them as inputs for the next iteration until it reaches a fixed point, where no further changes are made to the output.
+#+end_src
+#+begin_src output2
+
+To summarize, the provided code is a fixed point combinator implementation in Emacs Lisp that generates new outputs from previous ones by applying them recursively. The loop runs four times and writes each generated output to a temporary buffer. The `ollama-follow-region` function uses the `interactive` macro to enable interactive mode in Emacs, sets the initial input message, and calls the `ollama-prompt` function with parameters for an OLLAM model endpoint URL, previous input from the loop, and the name of the OLLAM model. The response from the prompt is then written to the temporary buffer. The generated outputs are used as inputs for the next iteration until no further changes are made to the output.
+#+end_src
+#+begin_src output3
+
+It looks like you have provided two different ways of describing the same code. The first description is more concise and easier to read, while the second description provides more information about the language used to write the code and the function being implemented. Both descriptions accurately convey the purpose and functionality of the code, which is implementing a fixed point combinator that follows a given idea recursively by generating new outputs and using them as inputs for the next iteration until it reaches a fixed point, where no further changes are made to the output."
+
+The provided code is an implementation of a fixed point combinator in Emacs Lisp. The loop runs four times and generates new outputs that are used as inputs for the next iteration. The `ollama-follow-region` function uses the `interactive` macro to enable interactive mode in Emacs, sets the initial input message, and calls the `ollama-prompt` function with parameters for an OLLAM model endpoint URL, previous input from the loop, and the name of the OLLAM model. The response from the prompt is then written to a temporary buffer. The generated outputs are used as inputs for the next iteration until no further changes are made to the output.
+
+In summary, this code implements a fixed point combinator that follows a given idea recursively by generating new outputs and using them as inputs for the next iteration until it reaches a fixed point, where no further changes are made to the output.
+#+end_src

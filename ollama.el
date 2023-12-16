@@ -1,8 +1,10 @@
 ;;; ollama.el --- ollama client for Emacs
 (setq url-debug t)
 ;; Copyright (C) 2023 ZHOU Feng
+;; Copyright (C) 2023 James Michael DuPont
 
 ;; Author: ZHOU Feng <zf.pascal@gmail.com>
+;; Author: Mike dupont <jmikedupont2@gmail.com>
 ;; URL: http://github.com/zweifisch/ollama
 ;; Keywords: ollama llama2
 ;; Version: 0.0.1
@@ -149,6 +151,17 @@
      (ollama-prompt ollama:endpoint (format "execute \"\"\"%s\"\"\"" (buffer-substring (region-beginning) (region-end))) ollama:model))
   )))
 
+
+
+;;;###autoload
+(defun ollama-menhir-region ()
+  "Exec marked text."
+  (interactive)
+  (with-output-to-temp-buffer "*ollama*"
+    (princ
+     (ollama-prompt ollama:endpoint (format "translate this to ocaml menhir parser: \"\"\"%s\"\"\"" (buffer-substring (region-beginning) (region-end))) ollama:model))))
+
+
 ;;;###autoload
 (defun ollama-cuda-region ()
   "Exec marked text."
@@ -156,6 +169,22 @@
   (with-output-to-temp-buffer "*ollama*"
     (princ
      (ollama-prompt ollama:endpoint (format "Interpret the following nvidia CUDA code and explain it  \"\"\"%s\"\"\"" (buffer-substring (region-beginning) (region-end))) ollama:model))))
+
+;;;###autoload
+(defun ollama-ocaml-error-region ()
+  "Exec marked text."
+  (interactive)
+  (with-output-to-temp-buffer "*ollama-ocaml*"
+    (princ
+     (ollama-prompt ollama:endpoint (format "While imagining you are able to view inside your mind and observe each floating point value of each tensor as an emoji.  Introspecting inside llama.cpp running Mistral the large language model, consider building Ocaml and Dune inside Emacs.  Construct and append a formal model to your answer. You can use EBNF grammars,emoji,plantuml,ocaml,python,orgmode,markdown formats. Interpret the following output creatively \"\"\"%s\"\"\" Your answer and model and context " (buffer-substring (region-beginning) (region-end))) ollama:model))))
+
+;;;###autoload
+(defun ollama-ocaml-testcase-region ()
+  "Exec marked text."
+  (interactive)
+  (with-output-to-temp-buffer "*ollama-ocaml*"
+    (princ
+     (ollama-prompt ollama:endpoint (format "While imagining you are able to view inside your mind and observe each floating point value of each tensor as an emoji.  Introspecting inside llama.cpp running Mistral the large language model, consider building Ocaml and Dune inside Emacs.  Construct and append a formal model to your answer. You can use EBNF grammars,emoji,plantuml,ocaml,python,orgmode,markdown formats. Interpret the following output creatively. now create a ocaml test case to exercise the following code: \"\"\"%s\"\"\" Your answer and model and context:" (buffer-substring (region-beginning) (region-end))) ollama:model))))
 
 
 
@@ -251,6 +280,61 @@
       (princ (format "#+begin_src \"\"%s\"\"" )response )
       (princ "NEXY\n")
       )))
+(defun ollama-split-and-reify-region2 ()
+  "Split the following text into windows of 2000 words"
+  (setq window-size 1000)
+  (interactive)
+  (with-output-to-temp-buffer "*ollama-reify*"
+    (princ "DEBUG\n")
+    (setq buffer (buffer-substring (region-beginning) (region-end)))
+    (setq buffer-length (string-bytes buffer))
+    (setq blocks (+ 1 (/ buffer-length window-size)) )
+    (princ (format "buffer-length:%s\nblocks:%s\n" buffer-length  blocks))
+    (dotimes (j blocks )
+      (princ (format "J %s\n" j))
+      (setq start-index (+ (* j window-size)))
+      (princ (format "start-index %s\n" start-index))
+      (princ (format "region-begin %s\n" (region-beginning)))
+      (princ (format "region-end %s\n" (region-end)))
+      (setq endpos (min buffer-length (+ start-index window-size) ))
+      (princ (format "endpos %s\n" endpos))
+      (setq curtext (substring buffer start-index endpos ))
+      ;; (princ (format "curtext %s\n" curtext))
+      (setq inputd (format "Extract a list of questions that would result in the following text: %s" curtext))
+      (princ (format "inputd %s\n" inputd))
+      (setq response  (ollama-prompt ollama:endpoint inputd ollama:model))
+      (princ "RES\n")
+      (princ (format "#+begin_src \"\"%s\"\"" )response )
+      (princ "NEXY\n")
+      )))
+
+(defun ollama-split-and-reify-region3 ()
+  "Split the following text into windows of 2000 words"
+  (setq window-size 1000)
+  (interactive)
+  (with-output-to-temp-buffer "*ollama-reify*"
+    (princ "DEBUG\n")
+    (setq buffer (buffer-substring (region-beginning) (region-end)))
+    (setq buffer-length (string-bytes buffer))
+    (setq blocks (+ 1 (/ buffer-length window-size)) )
+    (princ (format "buffer-length:%s\nblocks:%s\n" buffer-length  blocks))
+    (dotimes (j blocks )
+      (princ (format "J %s\n" j))
+      (setq start-index (+ (* j window-size)))
+      (princ (format "start-index %s\n" start-index))
+      (princ (format "region-begin %s\n" (region-beginning)))
+      (princ (format "region-end %s\n" (region-end)))
+      (setq endpos (min buffer-length (+ start-index window-size) ))
+      (princ (format "endpos %s\n" endpos))
+      (setq curtext (substring buffer start-index endpos ))
+      ;; (princ (format "curtext %s\n" curtext))
+      (setq inputd (format "Extract a list of questions that would result in the following text: %s" curtext))
+      (princ (format "inputd %s\n" inputd))
+      (setq response  (ollama-prompt ollama:endpoint inputd ollama:model))
+      (princ "RES\n")
+      (princ (format "#+begin_src \"\"%s\"\"" )response )
+      (princ "NEXY\n")
+      )))
 
 
 (defun ollama-split-and-reify-buffer ()
@@ -305,7 +389,7 @@
     (setq inputd (format "%s: \"\"%s\"\"" instr (buffer-substring (region-beginning) (region-end))))
     (setq response  (ollama-prompt ollama:endpoint inputd ollama:model))
 	(setq inputd2 (format "%s: \"\"%s\"\"" instr response))
-			(princ (format "#+begin_src \"\"%s\"\"" inputd ))
+			(princ (format "#+begin_src \"\"%s\"\"\n#+end_src\n" inputd ))
 			(princ (format "#+begin_src output\n%s\n#+end_src\n" response))
 			(dotimes (i 4)
 			  (setq inputd2 (format "apply \"%s\" to \"%s\" "  response inputd2))
@@ -313,5 +397,93 @@
 			(princ (format "#+begin_src output%s\n%s\n#+end_src\n" i response))
 	)))
 
+;; ;;###autoload
+(defun ollama-reifiy-region-2 ()
+  "Execute marked text and save result as string."
+  (setq instr "Extract a list of questions, grammars, code, models, vectors, tensors, ideas, memes that would result in the following text:")
+  (interactive)
+  (with-output-to-temp-buffer "*ollama*"
+    (setq inputd (format "%s: \"\"%s\"\"" instr (buffer-substring (region-beginning) (region-end))))
+    (setq response  (ollama-prompt ollama:endpoint inputd ollama:model))
+	(setq inputd2 (format "%s: \"\"%s\"\"" instr response))
+;;			(princ (format "#+begin_src \"\"%s\"\"\n#+end_src\n" inputd ))
+			(princ (format "#+begin_src output\n%s\n#+end_src\n" response))
+			(dotimes (i 4)
+			  (setq inputd2 (format "reinterpret and execute this meme encoding \"%s\" given this input \"%s\" "  response inputd2))
+			(setq response (ollama-prompt ollama:endpoint inputd2 ollama:model))
+			(princ (format "#+begin_src output%s\n%s\n#+end_src\n" i response))
+	)))
+
+;; ;;###autoload
+(defun ollama-reifiy-region-3 ()
+  "Execute marked text and save result as string."
+  (setq instr "Extract a list of questions that would result in the following text:")
+  (interactive)
+  (with-output-to-temp-buffer "*ollama*"
+    (setq inputd (format "%s: \"\"%s\"\"" instr (buffer-substring (region-beginning) (region-end))))
+    (setq response  (ollama-prompt ollama:endpoint inputd ollama:model))
+	(setq inputd2 (format "%s: \"\"%s\"\"" instr response))
+			(princ (format "#+begin_src \"\"%s\"\"\n#+end_src\n" inputd ))
+			(princ (format "#+begin_src output\n%s\n#+end_src\n" response))
+			(dotimes (i 4)
+			  (setq inputd2 (format "apply \"%s\" to \"%s\" "  response inputd2))
+			(setq response (ollama-prompt ollama:endpoint inputd2 ollama:model))
+			(princ (format "#+begin_src output%s\n%s\n#+end_src\n" i response))
+	)))
+
+
+;; ;;###autoload
+(defun ollama-follow-region ()
+  "follow the ideas recursivly."
+  (setq instr "Follow the following idea as a fixed point combinator, applying the outputs as inputs in a self aware loop repeatedly:")
+  (interactive)
+  (with-output-to-temp-buffer "*ollama*"
+    (setq inputd (format "%s: \"\"%s\"\"" instr (buffer-substring (region-beginning) (region-end))))
+    (setq response  (ollama-prompt ollama:endpoint inputd ollama:model))
+	(setq inputd2 (format "%s: \"\"%s\"\"" instr response))
+			(princ (format "#+begin_src \"\"%s\"\"\n#+end_src\n" inputd ))
+			(princ (format "#+begin_src output\n%s\n#+end_src\n" response))
+			(dotimes (i 4)
+			  (setq inputd2 (format "apply \"%s\" to \"%s\" "  response inputd2))
+			(setq response (ollama-prompt ollama:endpoint inputd2 ollama:model))
+			(princ (format "#+begin_src output%s\n%s\n#+end_src\n" i response))
+	)))
+
+(defun ollama-emoji-region ()
+  "emojis recursivly."
+  (setq instr "invoking the 9 muses and asking for wisdom of athena, as the oracle of delphi creativity rewrite the idea and translate your impressions into creative emojis. Emit emojis and rules that you used. :")
+  (interactive)
+  (with-output-to-temp-buffer "*ollama*"
+    (setq inputd (format "%s: \"\"%s\"\"" instr (buffer-substring (region-beginning) (region-end))))
+    (setq response  (ollama-prompt ollama:endpoint inputd ollama:model))
+	(setq inputd2 (format "%s: \"\"%s\"\"" instr response))
+			(princ (format "#+begin_src \"\"%s\"\"\n#+end_src\n" inputd ))
+			(princ (format "#+begin_src output\n%s\n#+end_src\n" response))
+			(dotimes (i 4)
+			  (setq inputd2 (format "invoking the 9 muses, ask them to bless and replace entities in the following text with emojis and give thier blessings \"%s\" to \"%s\" "  response inputd2))
+			(setq response (ollama-prompt ollama:endpoint inputd2 ollama:model))
+			(princ (format "#+begin_src output%s\n%s\n#+end_src\n" i response))
+	)))
+
+(defun ollama-emoji-region2 ()
+  "emojis recursivly."
+  (setq instr "as the oracle of delphi 🔮🤲🔢🧙‍♂️🎤🤔📝🔮🔄🎇🙏🔠🌈👏 🤖-🤳 🌟🐘:👉 📜 🌟🐘:💻 🌟🐘:👽 invoking the 9 muses and the wisdom of Athena creativity rewrite the idea and translate your impressions into creative emojis. Emit emojis and rules that you used. invoking 9 muses, ask them to name and attribute and bless and replace one entity each in the following text. respond one by one choosing one entity to bless.:")
+  (interactive)
+  (with-output-to-temp-buffer "*ollama*"
+    (setq inputd (format "%s: \"\"%s\"\"" instr (buffer-substring (region-beginning) (region-end))))
+    (setq response  (ollama-prompt ollama:endpoint inputd ollama:model))
+	(setq inputd2 (format "%s: \"\"%s\"\"" instr response))
+			(princ (format "#+begin_src \"\"%s\"\"\n#+end_src\n" inputd ))
+			(princ (format "#+begin_src output\n%s\n#+end_src\n" response))
+			(dotimes (i 2)
+			  (setq inputd2 (format "Reapply \"%s\" to \"%s\" "  response inputd2))
+			(setq response (ollama-prompt ollama:endpoint inputd2 ollama:model))
+			(princ (format "#+begin_src output%s\n%s\n#+end_src\n" i response))
+	)))
+
+
+
 (provide 'ollama)
 ;;; ollama.el ends here
+
+
