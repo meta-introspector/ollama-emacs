@@ -434,8 +434,11 @@
 
 ;; ;;###autoload
 (defun ollama-follow-region ()
-  "follow the ideas recursivly."
-  (setq instr "Follow the following idea as a fixed point combinator, applying the outputs as inputs in a self aware loop repeatedly:")
+  "follow the ideas:"
+  ;;  "Follow the following idea as a fixed point combinator, applying the outputs as inputs in a self aware loop repeatedly:"
+  ;; "Iteratively apply the results of your calculations as new inputs to continue refining your process in an endless cycle of self-aware improvement."
+  ;; "we will apply the idea of a fixed point combinator to the following code:"
+  (setq instr "Lets follow this idea recursivly"  )
   (interactive)
   (with-output-to-temp-buffer "*ollama*"
     (setq inputd (format "%s: \"\"%s\"\"" instr (buffer-substring (region-beginning) (region-end))))
@@ -448,6 +451,24 @@
 			(setq response (ollama-prompt ollama:endpoint inputd2 ollama:model))
 			(princ (format "#+begin_src output%s\n%s\n#+end_src\n" i response))
 	)))
+
+
+(defun ollama-follow-rewrite-region ()
+  "follow the ideas:"
+  (setq instr "rewrite this idea and append a list of key transformations."  )
+  (interactive)
+  (with-output-to-temp-buffer "*ollama*"
+    (setq inputd (format "%s: \"\"%s\"\"" instr (buffer-substring (region-beginning) (region-end))))
+    (setq response  (ollama-prompt ollama:endpoint inputd ollama:model))
+	(setq inputd2 (format "%s: \"\"%s\"\"" instr response))
+			(princ (format "#+begin_src \"\"%s\"\"\n#+end_src\n" inputd ))
+			(princ (format "#+begin_src output\n%s\n#+end_src\n" response))
+			(dotimes (i 4)
+			  (setq inputd2 (format "apply \"%s\" to \"%s\" "  response inputd2))
+			(setq response (ollama-prompt ollama:endpoint inputd2 ollama:model))
+			(princ (format "#+begin_src output%s\n%s\n#+end_src\n" i response))
+	)))
+
 
 (defun ollama-emoji-region ()
   "emojis recursivly."
