@@ -42,7 +42,13 @@
   :group 'ollama
   :type 'string)
 
-(defcustom ollama:model "mistral"
+;;  1285  ./ollama run deepseek
+;;  1286  ./ollama run deepseek-math
+;;  1287  ./ollama run deepseek-coder
+;; 1288  ./ollama run wizard-math
+;; mixtral
+
+(defcustom ollama:model "wizard-math"
   "Ollama model."
   :group 'ollama
   :type 'string)
@@ -110,6 +116,24 @@
     (princ
      (ollama-prompt ollama:endpoint (format "summarize \"\"\"%s\"\"\"" (buffer-substring (region-beginning) (region-end))) ollama:model))))
 
+(defun ollama-raw-region-fill ()
+  "Exec marked text."
+  (interactive) (with-output-to-temp-buffer "*ollama*" (dotimes (i 4)
+      (princ
+       (format "#+begin_src output\n%s\n#+end_src\n"
+	        (ollama-prompt ollama:endpoint (format "%s" (buffer-substring (region-beginning) (region-end))) ollama:model))));
+(with-current-buffer "*ollama*" (fill-region (point-min) (point-max)))
+))
+
+(defun ollama-raw-region ()
+  "Exec marked text."
+  (interactive)
+  (with-output-to-temp-buffer "*ollama*"
+    (dotimes (i 8)
+      (princ
+       (format "#+begin_src output\n%s\n#+end_src\n"
+	       (ollama-prompt ollama:endpoint (format "%s" (buffer-substring (region-beginning) (region-end))) ollama:model))))))
+
 ;; rewrite this function to apply ollama to chunks of a buffer in a sliding window
 ;;;###autoload
 (defun ollama-exec-region ()
@@ -127,8 +151,9 @@
   (with-output-to-temp-buffer "*ollama*"
     (princ (format "#+begin_src input\nrewrite and reinterpret creatively preserving main ideas \"\"\"%s\"\"\"\n#+end_src\n" (buffer-substring (region-beginning) (region-end))))
     (princ
-     (format "#+begin_src output\n%s\n#+end_src\n"
-     (ollama-prompt ollama:endpoint (format "rewrite and reinterpret creatively preserving main ideas \"\"\"%s\"\"\"" (buffer-substring (region-beginning) (region-end))) ollama:model))
+     (format "#+begin_src output %s\n%s\n#+end_src\n"
+	     ollama:model
+	     (ollama-prompt ollama:endpoint (format "rewrite and reinterpret creatively preserving main ideas \"\"\"%s\"\"\"" (buffer-substring (region-beginning) (region-end))) ollama:model))
   )))
 
 (defun ollama-reinterpret-region-insert-2x ()
@@ -160,6 +185,14 @@
   (with-output-to-temp-buffer "*ollama*"
     (princ
      (ollama-prompt ollama:endpoint (format "translate this to ocaml menhir parser: \"\"\"%s\"\"\"" (buffer-substring (region-beginning) (region-end))) ollama:model))))
+
+;;;###autoload
+(defun ollama-menhir-region ()
+  "Exec marked text."
+  (interactive)
+  (with-output-to-temp-buffer "*ollama*"
+    (princ
+     (ollama-prompt ollama:endpoint (format "diagnose ocaml menhir parser error: \"\"\"%s\"\"\"" (buffer-substring (region-beginning) (region-end))) ollama:model))))
 
 
 ;;;###autoload
@@ -416,7 +449,7 @@
 
 ;; ;;###autoload
 (defun ollama-reifiy-region-3 ()
-  "Execute marked text and save result as string."
+  E"xecute marked text and save result as string."
   (setq instr "Extract a list of questions that would result in the following text:")
   (interactive)
   (with-output-to-temp-buffer "*ollama*"
